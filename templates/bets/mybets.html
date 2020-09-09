@@ -1,0 +1,58 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load site_utils %}
+{% block page_title %}My Games - {% site_name %}{% endblock %}
+{% block latter_style %}
+    <link rel="stylesheet" href="{% static 'css/core.css' %}">
+{% endblock %}
+{% block content %}
+    <section class="section parallax-container breadcrumbs-wrap{% if user.is_authenticated %} push-header{% endif %}"
+             data-parallax-img="{% static 'images/bg/breadcrumbs-1-1920x726.jpg' %}">
+        <div class="parallax-content breadcrumbs-custom context-dark">
+            <div class="container">
+                <h3 class="breadcrumbs-custom-title">My Games</h3>
+                <ul class="breadcrumbs-custom-path">
+                    <li><a href="javascript:void(0)" onclick="history.back()">Back</a></li>
+                    <li class="active">My games</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-sm bg-gray-100">
+        <div class="container">
+            <div class="row row-50">
+                <div class="col-xl-12">
+                    {% if messages %}
+                    {% for message in messages %}
+                        <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %}>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            <span>
+                                    {{ message }}
+                                </span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                    {% if num_bets < 5 %}
+                        <div class="alert alert-warning">
+                            Play {{ remaining_bets }} more slips and get  a &#8358;100 bonus instantly!
+                        </div>
+                    {%elif num_bets > 4 %}
+			<div class="alert alert-success">
+                                   
+                                    <p><span style="color:#ff0000">Congratulations</span>, you have played up to 5
+                                     game slips this week and you have been rewarded with &#8358;100 to your bonus account</p>
+                          </div>
+                    {% endif %}
+                     
+                    
+
+                </div>
+            </div>
+            <bets>
+            <bets/>
+    </section>
+{% endblock content %}

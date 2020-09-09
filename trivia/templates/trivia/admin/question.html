@@ -1,0 +1,92 @@
+{% extends "site_admin/layouts/base.html" %}
+{% block page_title %}Admin - Trivia {% endblock %}
+{% load humanize %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                {% if messages %}
+                {% for message in messages %}
+                    <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %}>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <i class="material-icons">close</i>
+                        </button>
+                        <span>
+                            {{ message }}
+                        </span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+                <div class="clearfix"></div>
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title ">Question</h4>
+                    </div>
+                    <div class="card-body">
+                        <div style="margin-left:30px;">
+                        <form method="POST" enctype="multipart/form-data" action="">
+                            {%csrf_token%}
+                            <div>
+                                <label class="bmd-label-floating">Event</label>
+                                <input
+                                type="text"
+                                class="form-control"
+                                name="event"
+                                />
+                                </div>
+                                <div class="form-group">                        
+                            <label class="bmd-label-floating">Team A</label>
+                            <input
+                            type="text"
+                            name="team_a"
+                            class="form-control"
+                            />
+                            </div>
+                            
+                            <div class="form-group">
+                            <label class="bmd-label-floating">Team B</label>                            
+                            <input
+                            type="text"
+                            name="team_b"
+                            class="form-control"
+                            />
+                            </div>
+                            
+                            <div class="form-group">
+                            <label class="bmd-label-floating">Team A Logo</label>
+                            </div>
+                            <input type="file"  class="form-control"
+                            name="team_a_logo"
+                            id="team_a_logo" accept="image/*">
+                            
+                            <div class="form-group"></div>
+                            <label class="bmd-label-floating">Team B Logo</label>
+                            <input
+                            type="file"
+                            class="form-control"
+                            name="team_b_logo"
+                            id="team_b_logo"
+                            accept="image/*"
+                            />
+                            
+                            <div class="form-group">
+                            <label class="bmd-label-floating">Close Entry</label>
+                            <input
+                            type="datetime-local"
+                            input-class="form-control"
+                            value-zone="Africa/Lagos"
+                            zone="Africa/Lagos"
+                            name="closed_at"
+                            >
+                            </div>
+                            <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save Question</button>
+                            </div>
+                        </form>
+                    </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+{% endblock %}

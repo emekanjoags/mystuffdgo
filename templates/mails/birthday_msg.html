@@ -1,0 +1,14 @@
+{% load static %}
+{% autoescape off %}
+    <img src="{% static 'images/logos/logopc.png' %}" alt="logo" width="200px" height="40px"
+         style="margin-left:auto;margin-right:auto;display:block;">
+    <div style="background-color:white;border:0.1px solid #000321;border-radius:10px 10px 0px 0px;padding:10px 14px;font-size: 15px;">
+        <h2 style="color:#ff4f2e;text-transform:uppercase;margin-left:5px">Happy Birthday {{username}}!</h2>
+        <p>We the entire Topsport family want to specially wish you a happy birthday and hope you get all your heart desires, we wish you continous success.
+
+        </p>
+        <p style="color: #3c4858"><small>keep winning topplayer, Cheers!</small></p>
+
+    </div>
+    {% include "mails/layouts/footer.html" %}
+{% endautoescape %}

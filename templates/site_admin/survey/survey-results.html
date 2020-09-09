@@ -1,0 +1,90 @@
+{% extends "site_admin/layouts/base.html" %}
+{% block page_title %}Admin - Survey answers {% endblock %}
+{% load humanize %}
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %}>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <i class="material-icons">close</i>
+                            </button>
+                            <span>
+                                {{ message }}
+                            </span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+
+                {% if form.errors %}
+                    {#                    {% if form.errors.name %}#}
+                    {#                        <div class="alert alert-danger">#}
+                    {#                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">#}
+                    {#                                <i class="material-icons">close</i>#}
+                    {#                            </button>#}
+                    {#                            <span>{{ form.errors.name|striptags }}</span>#}
+                    {#                        </div>#}
+                    {#                    {% endif %}#}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <i class="material-icons">close</i>
+                            </button>
+                            <span>{{ error|escape }}</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title ">Survey participants results</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                <th>
+                                    S/N
+                                </th>
+                                <th>
+                                   User Name
+                                </th>
+                                <th>
+                                    Question
+                                </th>
+                                <th>
+                                    Answer
+                                </th>
+                                <th>
+                                    Attempted at
+                                </th>  
+                                </thead>
+                                <tbody>
+                                    {% for question in questions %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ question.user.username }}</td>
+                                        <td>{{question.question.text}}</td>
+                                        <td>{{question.answer}}</td>
+                                        <td>{{question.time}}</td>
+                                        
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="100%" class="text-center">There are no survey participants yet</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

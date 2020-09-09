@@ -1,0 +1,113 @@
+{% extends "site_admin/layouts/base.html" %}
+{% block page_title %}Admin - Manual Deposit {% endblock %}
+{% load humanize %}
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %}>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <i class="material-icons">close</i>
+                            </button>
+                            <span>
+                                {{ message }}
+                            </span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+
+                {% if form.errors %}
+                    {#                    {% if form.errors.name %}#}
+                    {#                        <div class="alert alert-danger">#}
+                    {#                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">#}
+                    {#                                <i class="material-icons">close</i>#}
+                    {#                            </button>#}
+                    {#                            <span>{{ form.errors.name|striptags }}</span>#}
+                    {#                        </div>#}
+                    {#                    {% endif %}#}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <i class="material-icons">close</i>
+                            </button>
+                            <span>{{ error|escape }}</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+
+
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title ">List of Paid Users</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                <th>
+                                    S/N
+                                </th>
+                                <th>
+                                   User Name
+                                </th>
+                                <th>
+                                    Sender Name
+                                </th>
+                                <th>
+                                    Amount
+                                </th>
+                                <th>
+                                   Time paid
+                                </th>
+                                <th>
+                                    Pay user
+                                </th> 
+                                </thead>
+                                <tbody>
+                                    {% for user in paidusers %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ user.user.username }}</td>
+                                        <td>{{user.sender}}</td>
+                                        <td>{{user.amount}}</td>
+                                        <td>{{user.timePaid}}</td>
+                                        <td>
+                                            <a id='paybtn' href="#" style="color: #ffffff;background:green;padding:6px;border-radius:3px"
+                                               onclick="
+                                                       
+                                                       var settle = confirm('Are you sure you want to pay {{user.user.username}}?');
+                                                       if (settle){
+                                                        var btn = document.getElementById('paybtn')
+                                                       btn.style.background = '#ff4f2e'
+                                                       event.preventDefault();
+                                                       document.getElementById('pay-user-{{ user.id }}').submit();
+
+                                                       }"
+                                            >
+                                                Credit
+                                            </a>
+                                            <form action="{% url 'myadmin:pay-user' user.id %}" method="POST"
+                                                  style="display: none;" id="pay-user-{{ user.id }}">
+                                                {% csrf_token %}
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="100%" class="text-center">No Team created</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

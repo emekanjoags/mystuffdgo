@@ -1,0 +1,86 @@
+{% extends "site_admin/layouts/base.html" %}
+{% block page_title %}Admin - Survey {% endblock %}
+{% load humanize %}
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %}>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <i class="material-icons">close</i>
+                            </button>
+                            <span>
+                                {{ message }}
+                            </span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+
+                {% if form.errors %}
+                    {#                    {% if form.errors.name %}#}
+                    {#                        <div class="alert alert-danger">#}
+                    {#                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">#}
+                    {#                                <i class="material-icons">close</i>#}
+                    {#                            </button>#}
+                    {#                            <span>{{ form.errors.name|striptags }}</span>#}
+                    {#                        </div>#}
+                    {#                    {% endif %}#}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <i class="material-icons">close</i>
+                            </button>
+                            <span>{{ error|escape }}</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                    
+                <a class="btn btn-danger" href="{% url 'myadmin:biodata' %}">View Users Bio data
+                </a>                        
+
+
+
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title ">All available survey questions</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                <th>
+                                    S/N
+                                </th>
+                                <th>
+                                   Question
+                                </th>
+                                <th>
+                                    Action
+                                </th>  
+                                </thead>
+                                <tbody>
+                                    {% for question in questions %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ question.text }}</td>
+                                        <td><a class="btn btn-primary" href="{% url 'myadmin:other-questions' question.id %}">View survey result
+                                        </a></td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="100%" class="text-center">There are no survey questions at this time.</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
